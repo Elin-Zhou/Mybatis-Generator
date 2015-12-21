@@ -1,0 +1,41 @@
+<assembly>
+    <id>all-in-one</id>
+    <formats>
+        <format>zip</format>
+    </formats>
+
+    <fileSets>
+        <fileSet>
+        	<directory>src/main/resources</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>generatorConfig.xml</include>
+            </includes>
+            <excludes>
+            	<exclude>log4j.properties</exclude>
+            	<exclude>assembly.xml</exclude>
+            </excludes>
+        </fileSet>
+        <fileSet>
+            <directory>src/main/script</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>run.bat</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.build.directory}</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>${project.artifactId}-${project.version}.jar</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.build.directory}</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>${project.artifactId}-${project.version}.jar</include>
+            </includes>
+        </fileSet>
+    </fileSets>
+</assembly>

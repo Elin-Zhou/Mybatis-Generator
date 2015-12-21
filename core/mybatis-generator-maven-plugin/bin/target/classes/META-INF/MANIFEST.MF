@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Implementation-Vendor: MyBatis.org
+Implementation-Title: MyBatis Generator Maven Plugin
+Implementation-Version: 1.3.2
+Implementation-Vendor-Id: org.mybatis.generator
+Specification-Vendor: MyBatis.org
+Build-Jdk: 1.7.0_25
+Built-By: ElinZhou
+Implementation-Build-Date: 2015-12-21 02:08:08+0000
+Created-By: Maven Integration for Eclipse
+Specification-Title: MyBatis Generator Maven Plugin
+Implementation-URL: http://www.mybatis.org/mybatis-generator/mybatis-g
+ enerator-maven-plugin/
+Specification-Version: 1.3.2
+X-Compile-Source-JDK: 1.6
+X-Compile-Target-JDK: 1.6
+
