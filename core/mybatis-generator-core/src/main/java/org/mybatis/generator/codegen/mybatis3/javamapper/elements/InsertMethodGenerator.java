@@ -25,9 +25,9 @@ import org.mybatis.generator.api.dom.java.Method;
 import org.mybatis.generator.api.dom.java.Parameter;
 
 /**
- * 
+ *
  * @author Jeff Butler
- * 
+ *
  */
 public class InsertMethodGenerator extends AbstractJavaMapperMethodGenerator {
 
@@ -42,7 +42,7 @@ public class InsertMethodGenerator extends AbstractJavaMapperMethodGenerator {
     public void addInterfaceElements(Interface interfaze) {
         Set<FullyQualifiedJavaType> importedTypes = new TreeSet<FullyQualifiedJavaType>();
         Method method = new Method();
-
+		context.getCommentGenerator().addGeneralMethodComment(method, introspectedTable, "保存记录,不管记录里面的属性是否为空");
         method.setReturnType(FullyQualifiedJavaType.getIntInstance());
         method.setVisibility(JavaVisibility.PUBLIC);
         method.setName(introspectedTable.getInsertStatementId());
@@ -59,8 +59,6 @@ public class InsertMethodGenerator extends AbstractJavaMapperMethodGenerator {
         importedTypes.add(parameterType);
         method.addParameter(new Parameter(parameterType, "record")); //$NON-NLS-1$
 
-        context.getCommentGenerator().addGeneralMethodComment(method,
-                introspectedTable);
 
         addMapperAnnotations(interfaze, method);
 

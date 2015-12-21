@@ -25,9 +25,9 @@ import org.mybatis.generator.api.dom.java.Method;
 import org.mybatis.generator.api.dom.java.Parameter;
 
 /**
- * 
+ *
  * @author Jeff Butler
- * 
+ *
  */
 public class DeleteByExampleMethodGenerator extends
         AbstractJavaMapperMethodGenerator {
@@ -44,16 +44,15 @@ public class DeleteByExampleMethodGenerator extends
         importedTypes.add(type);
 
         Method method = new Method();
+		context.getCommentGenerator().addGeneralMethodComment(method, introspectedTable, "根据条件删除记录");
         method.setVisibility(JavaVisibility.PUBLIC);
         method.setReturnType(FullyQualifiedJavaType.getIntInstance());
         method.setName(introspectedTable.getDeleteByExampleStatementId());
         method.addParameter(new Parameter(type, "example")); //$NON-NLS-1$
 
-        context.getCommentGenerator().addGeneralMethodComment(method,
-                introspectedTable);
 
         addMapperAnnotations(interfaze, method);
-        
+
         if (context.getPlugins().clientDeleteByExampleMethodGenerated(
                 method, interfaze, introspectedTable)) {
             interfaze.addImportedTypes(importedTypes);

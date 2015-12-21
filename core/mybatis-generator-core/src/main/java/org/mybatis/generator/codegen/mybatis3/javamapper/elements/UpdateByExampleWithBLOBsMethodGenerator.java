@@ -25,9 +25,9 @@ import org.mybatis.generator.api.dom.java.Method;
 import org.mybatis.generator.api.dom.java.Parameter;
 
 /**
- * 
+ *
  * @author Jeff Butler
- * 
+ *
  */
 public class UpdateByExampleWithBLOBsMethodGenerator extends
         AbstractJavaMapperMethodGenerator {
@@ -40,6 +40,8 @@ public class UpdateByExampleWithBLOBsMethodGenerator extends
     public void addInterfaceElements(Interface interfaze) {
         Set<FullyQualifiedJavaType> importedTypes = new TreeSet<FullyQualifiedJavaType>();
         Method method = new Method();
+		context.getCommentGenerator().addGeneralMethodComment(method, introspectedTable,
+				"根据条件更新记录包括TINYTEXT、TEXT、MEDIUMTEXT和LONGTEXT字段,空记录将会覆盖数据库中的记录");
         method.setVisibility(JavaVisibility.PUBLIC);
         method.setReturnType(FullyQualifiedJavaType.getIntInstance());
         method.setName(introspectedTable
@@ -66,11 +68,9 @@ public class UpdateByExampleWithBLOBsMethodGenerator extends
         importedTypes.add(new FullyQualifiedJavaType(
                 "org.apache.ibatis.annotations.Param")); //$NON-NLS-1$
 
-        context.getCommentGenerator().addGeneralMethodComment(method,
-                introspectedTable);
 
         addMapperAnnotations(interfaze, method);
-        
+
         if (context.getPlugins()
                 .clientUpdateByExampleWithBLOBsMethodGenerated(method, interfaze,
                         introspectedTable)) {
@@ -78,7 +78,7 @@ public class UpdateByExampleWithBLOBsMethodGenerator extends
             interfaze.addMethod(method);
         }
     }
-    
+
     public void addMapperAnnotations(Interface interfaze, Method method) {
         return;
     }

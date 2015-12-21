@@ -25,9 +25,9 @@ import org.mybatis.generator.api.dom.java.Method;
 import org.mybatis.generator.api.dom.java.Parameter;
 
 /**
- * 
+ *
  * @author Jeff Butler
- * 
+ *
  */
 public class UpdateByPrimaryKeyWithBLOBsMethodGenerator extends
         AbstractJavaMapperMethodGenerator {
@@ -52,15 +52,14 @@ public class UpdateByPrimaryKeyWithBLOBsMethodGenerator extends
         importedTypes.add(parameterType);
 
         Method method = new Method();
+		context.getCommentGenerator().addGeneralMethodComment(method, introspectedTable,
+				"根据主键更新记录包括TINYTEXT、TEXT、MEDIUMTEXT和LONGTEXT字段,空记录将会覆盖数据库中的记录");
         method.setVisibility(JavaVisibility.PUBLIC);
         method.setReturnType(FullyQualifiedJavaType.getIntInstance());
 
         method.setName(introspectedTable
             .getUpdateByPrimaryKeyWithBLOBsStatementId());
         method.addParameter(new Parameter(parameterType, "record")); //$NON-NLS-1$
-
-        context.getCommentGenerator().addGeneralMethodComment(method,
-                introspectedTable);
 
         addMapperAnnotations(interfaze, method);
 

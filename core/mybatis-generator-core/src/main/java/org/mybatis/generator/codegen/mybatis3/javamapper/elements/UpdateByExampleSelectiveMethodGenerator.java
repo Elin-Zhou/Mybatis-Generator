@@ -25,9 +25,9 @@ import org.mybatis.generator.api.dom.java.Method;
 import org.mybatis.generator.api.dom.java.Parameter;
 
 /**
- * 
+ *
  * @author Jeff Butler
- * 
+ *
  */
 public class UpdateByExampleSelectiveMethodGenerator extends
         AbstractJavaMapperMethodGenerator {
@@ -36,6 +36,7 @@ public class UpdateByExampleSelectiveMethodGenerator extends
     public void addInterfaceElements(Interface interfaze) {
         Set<FullyQualifiedJavaType> importedTypes = new TreeSet<FullyQualifiedJavaType>();
         Method method = new Method();
+		context.getCommentGenerator().addGeneralMethodComment(method, introspectedTable, "根据条件更新属性不为空的记录");
         method.setVisibility(JavaVisibility.PUBLIC);
         method.setReturnType(FullyQualifiedJavaType.getIntInstance());
         method.setName(introspectedTable
@@ -56,11 +57,8 @@ public class UpdateByExampleSelectiveMethodGenerator extends
         importedTypes.add(new FullyQualifiedJavaType(
                 "org.apache.ibatis.annotations.Param")); //$NON-NLS-1$
 
-        context.getCommentGenerator().addGeneralMethodComment(method,
-                introspectedTable);
+		addMapperAnnotations(interfaze, method);
 
-        addMapperAnnotations(interfaze, method);
-        
         if (context.getPlugins()
                 .clientUpdateByExampleSelectiveMethodGenerated(method, interfaze,
                         introspectedTable)) {

@@ -27,6 +27,7 @@ import static org.mybatis.generator.internal.util.messages.Messages.getString;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -61,16 +62,16 @@ public class DatabaseIntrospector {
 
     /** The database meta data. */
     private DatabaseMetaData databaseMetaData;
-    
+
     /** The java type resolver. */
     private JavaTypeResolver javaTypeResolver;
-    
+
     /** The warnings. */
     private List<String> warnings;
-    
+
     /** The context. */
     private Context context;
-    
+
     /** The logger. */
     private Log logger;
 
@@ -128,7 +129,7 @@ public class DatabaseIntrospector {
                 short keySeq = rs.getShort("KEY_SEQ"); //$NON-NLS-1$
                 keyColumns.put(keySeq, columnName);
             }
-            
+
             for (String columnName : keyColumns.values()) {
                 introspectedTable.addPrimaryKeyColumn(columnName);
             }
@@ -197,7 +198,7 @@ public class DatabaseIntrospector {
                         generatedKey.getColumn(), table.toString()));
             }
         }
-        
+
         for (IntrospectedColumn ic : introspectedTable.getAllColumns()) {
             if (JavaReservedWords.containsWord(ic.getJavaProperty())) {
                 warnings.add(getString("Warning.26", //$NON-NLS-1$
@@ -254,7 +255,7 @@ public class DatabaseIntrospector {
                 // add warning that the table has only BLOB columns, remove from
                 // the list
                 String warning = getString(
-                                "Warning.18", introspectedTable.getFullyQualifiedTable().toString()); //$NON-NLS-1$ 
+"Warning.18", introspectedTable.getFullyQualifiedTable().toString()); //$NON-NLS-1$
                 warnings.add(warning);
                 iter.remove();
             } else {
@@ -420,7 +421,7 @@ public class DatabaseIntrospector {
             // no generated key, then no identity or sequence columns
             return;
         }
-        
+
         for (Map.Entry<ActualTableName, List<IntrospectedColumn>> entry : columns
                 .entrySet()) {
             for (IntrospectedColumn introspectedColumn : entry.getValue()) {
@@ -436,7 +437,7 @@ public class DatabaseIntrospector {
             }
         }
     }
-    
+
     /**
      * Checks if is matched column.
      *
@@ -708,6 +709,27 @@ public class DatabaseIntrospector {
                     tc.getProperty(PropertyRegistry.TABLE_RUNTIME_SCHEMA),
                     tc.getProperty(PropertyRegistry.TABLE_RUNTIME_TABLE_NAME),
                     delimitIdentifiers, context);
+			Statement stmt = null;
+			ResultSet rs = null;
+			try {
+				stmt = databaseMetaData.getConnection().createStatement();
+				rs = stmt.executeQuery("SHOW TABLE STATUS LIKE '" + atn.getTableName() + "'");
+				while (rs.next()) {
+					table.setRemarks(rs.getString("COMMENT"));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				closeResultSet(rs);
+				if (stmt != null) {
+					try {
+						stmt.close();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}
+
+			}
 
             IntrospectedTable introspectedTable = ObjectFactory
                     .createIntrospectedTable(tc, table, context);
@@ -717,7 +739,7 @@ public class DatabaseIntrospector {
             }
 
             calculatePrimaryKey(table, introspectedTable);
-            
+
             enhanceIntrospectedTable(introspectedTable);
 
             answer.add(introspectedTable);
@@ -727,13 +749,13 @@ public class DatabaseIntrospector {
     }
 
     /**
-     * This method calls database metadata to retrieve some extra information about the table
-     * such as remarks associated with the table and the type.
-     * 
-     * If there is any error, we just add a warning and continue.
-     * 
-     * @param introspectedTable
-     */
+	 * This method calls database metadata to retrieve some extra information
+	 * about the table such as remarks associated with the table and the type.
+	 *
+	 * If there is any error, we just add a warning and continue.
+	 *
+	 * @param introspectedTable
+	 */
     private void enhanceIntrospectedTable(IntrospectedTable introspectedTable) {
         try {
             FullyQualifiedTable fqt = introspectedTable.getFullyQualifiedTable();

@@ -45,13 +45,13 @@ import org.mybatis.generator.internal.ObjectFactory;
  * @author Jeff Butler
  */
 public class IntrospectedTableMyBatis3Impl extends IntrospectedTable {
-    
+
     /** The java model generators. */
     protected List<AbstractJavaGenerator> javaModelGenerators;
-    
+
     /** The client generators. */
     protected List<AbstractJavaGenerator> clientGenerators;
-    
+
     /** The xml mapper generator. */
     protected AbstractXmlGenerator xmlMapperGenerator;
 
@@ -71,10 +71,10 @@ public class IntrospectedTableMyBatis3Impl extends IntrospectedTable {
     public void calculateGenerators(List<String> warnings,
             ProgressCallback progressCallback) {
         calculateJavaModelGenerators(warnings, progressCallback);
-        
+
         AbstractJavaClientGenerator javaClientGenerator =
             calculateClientGenerators(warnings, progressCallback);
-            
+
         calculateXmlMapperGenerator(javaClientGenerator, warnings, progressCallback);
     }
 
@@ -88,7 +88,7 @@ public class IntrospectedTableMyBatis3Impl extends IntrospectedTable {
      * @param progressCallback
      *            the progress callback
      */
-    protected void calculateXmlMapperGenerator(AbstractJavaClientGenerator javaClientGenerator, 
+    protected void calculateXmlMapperGenerator(AbstractJavaClientGenerator javaClientGenerator,
             List<String> warnings,
             ProgressCallback progressCallback) {
         if (javaClientGenerator == null) {
@@ -98,7 +98,7 @@ public class IntrospectedTableMyBatis3Impl extends IntrospectedTable {
         } else {
             xmlMapperGenerator = javaClientGenerator.getMatchedXMLGenerator();
         }
-        
+
         initializeAbstractGenerator(xmlMapperGenerator, warnings,
                 progressCallback);
     }
@@ -117,7 +117,7 @@ public class IntrospectedTableMyBatis3Impl extends IntrospectedTable {
         if (!rules.generateJavaClient()) {
             return null;
         }
-        
+
         AbstractJavaClientGenerator javaGenerator = createJavaClientGenerator();
         if (javaGenerator == null) {
             return null;
@@ -125,10 +125,10 @@ public class IntrospectedTableMyBatis3Impl extends IntrospectedTable {
 
         initializeAbstractGenerator(javaGenerator, warnings, progressCallback);
         clientGenerators.add(javaGenerator);
-        
+
         return javaGenerator;
     }
-    
+
     /**
      * Creates the java client generator.
      *
@@ -138,7 +138,7 @@ public class IntrospectedTableMyBatis3Impl extends IntrospectedTable {
         if (context.getJavaClientGeneratorConfiguration() == null) {
             return null;
         }
-        
+
         String type = context.getJavaClientGeneratorConfiguration()
                 .getConfigurationType();
 
@@ -155,7 +155,7 @@ public class IntrospectedTableMyBatis3Impl extends IntrospectedTable {
             javaGenerator = (AbstractJavaClientGenerator) ObjectFactory
                     .createInternalObject(type);
         }
-        
+
         return javaGenerator;
     }
 
@@ -214,7 +214,7 @@ public class IntrospectedTableMyBatis3Impl extends IntrospectedTable {
         if (abstractGenerator == null) {
             return;
         }
-        
+
         abstractGenerator.setContext(context);
         abstractGenerator.setIntrospectedTable(this);
         abstractGenerator.setProgressCallback(progressCallback);
@@ -269,7 +269,7 @@ public class IntrospectedTableMyBatis3Impl extends IntrospectedTable {
             GeneratedXmlFile gxf = new GeneratedXmlFile(document,
                 getMyBatis3XmlMapperFileName(), getMyBatis3XmlMapperPackage(),
                 context.getSqlMapGeneratorConfiguration().getTargetProject(),
-                true, context.getXmlFormatter());
+                false, context.getXmlFormatter());
             if (context.getPlugins().sqlMapGenerated(gxf, this)) {
                 answer.add(gxf);
             }
@@ -302,7 +302,7 @@ public class IntrospectedTableMyBatis3Impl extends IntrospectedTable {
     public boolean requiresXMLGenerator() {
         AbstractJavaClientGenerator javaClientGenerator =
             createJavaClientGenerator();
-        
+
         if (javaClientGenerator == null) {
             return false;
         } else {

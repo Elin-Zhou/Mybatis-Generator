@@ -25,9 +25,9 @@ import org.mybatis.generator.api.dom.java.Method;
 import org.mybatis.generator.api.dom.java.Parameter;
 
 /**
- * 
+ *
  * @author Jeff Butler
- * 
+ *
  */
 public class UpdateByPrimaryKeySelectiveMethodGenerator extends
         AbstractJavaMapperMethodGenerator {
@@ -52,17 +52,16 @@ public class UpdateByPrimaryKeySelectiveMethodGenerator extends
         importedTypes.add(parameterType);
 
         Method method = new Method();
+		context.getCommentGenerator().addGeneralMethodComment(method, introspectedTable, "根据主键更新属性不为空的记录");
         method.setVisibility(JavaVisibility.PUBLIC);
         method.setReturnType(FullyQualifiedJavaType.getIntInstance());
         method.setName(introspectedTable
                 .getUpdateByPrimaryKeySelectiveStatementId());
         method.addParameter(new Parameter(parameterType, "record")); //$NON-NLS-1$
 
-        context.getCommentGenerator().addGeneralMethodComment(method,
-                introspectedTable);
 
         addMapperAnnotations(interfaze, method);
-        
+
         if (context.getPlugins()
                 .clientUpdateByPrimaryKeySelectiveMethodGenerated(method,
                         interfaze, introspectedTable)) {

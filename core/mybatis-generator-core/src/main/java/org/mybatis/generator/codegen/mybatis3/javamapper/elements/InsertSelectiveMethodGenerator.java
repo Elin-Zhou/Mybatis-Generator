@@ -25,9 +25,9 @@ import org.mybatis.generator.api.dom.java.Method;
 import org.mybatis.generator.api.dom.java.Parameter;
 
 /**
- * 
+ *
  * @author Jeff Butler
- * 
+ *
  */
 public class InsertSelectiveMethodGenerator extends
         AbstractJavaMapperMethodGenerator {
@@ -40,7 +40,7 @@ public class InsertSelectiveMethodGenerator extends
     public void addInterfaceElements(Interface interfaze) {
         Set<FullyQualifiedJavaType> importedTypes = new TreeSet<FullyQualifiedJavaType>();
         Method method = new Method();
-
+		context.getCommentGenerator().addGeneralMethodComment(method, introspectedTable, "保存属性不为空的记录");
         method.setReturnType(FullyQualifiedJavaType.getIntInstance());
         method.setVisibility(JavaVisibility.PUBLIC);
         method.setName(introspectedTable.getInsertSelectiveStatementId());
@@ -51,11 +51,9 @@ public class InsertSelectiveMethodGenerator extends
         importedTypes.add(parameterType);
         method.addParameter(new Parameter(parameterType, "record")); //$NON-NLS-1$
 
-        context.getCommentGenerator().addGeneralMethodComment(method,
-                introspectedTable);
 
         addMapperAnnotations(interfaze, method);
-        
+
         if (context.getPlugins().clientInsertSelectiveMethodGenerated(
                 method, interfaze, introspectedTable)) {
             interfaze.addImportedTypes(importedTypes);

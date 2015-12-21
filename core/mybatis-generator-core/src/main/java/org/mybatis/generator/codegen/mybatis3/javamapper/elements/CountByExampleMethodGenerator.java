@@ -25,9 +25,9 @@ import org.mybatis.generator.api.dom.java.Method;
 import org.mybatis.generator.api.dom.java.Parameter;
 
 /**
- * 
+ *
  * @author Jeff Butler
- * 
+ *
  */
 public class CountByExampleMethodGenerator extends
         AbstractJavaMapperMethodGenerator {
@@ -45,15 +45,14 @@ public class CountByExampleMethodGenerator extends
         importedTypes.add(fqjt);
 
         Method method = new Method();
+		context.getCommentGenerator().addGeneralMethodComment(method, introspectedTable, "根据条件查询记录总数");
         method.setVisibility(JavaVisibility.PUBLIC);
         method.setReturnType(FullyQualifiedJavaType.getIntInstance());
         method.setName(introspectedTable.getCountByExampleStatementId());
         method.addParameter(new Parameter(fqjt, "example")); //$NON-NLS-1$
-        context.getCommentGenerator().addGeneralMethodComment(method,
-                introspectedTable);
 
         addMapperAnnotations(interfaze, method);
-        
+
         if (context.getPlugins().clientCountByExampleMethodGenerated(method,
                 interfaze, introspectedTable)) {
             interfaze.addImportedTypes(importedTypes);

@@ -25,9 +25,9 @@ import org.mybatis.generator.api.dom.java.Method;
 import org.mybatis.generator.api.dom.java.Parameter;
 
 /**
- * 
+ *
  * @author Jeff Butler
- * 
+ *
  */
 public class UpdateByExampleWithoutBLOBsMethodGenerator extends
         AbstractJavaMapperMethodGenerator {
@@ -40,6 +40,8 @@ public class UpdateByExampleWithoutBLOBsMethodGenerator extends
     public void addInterfaceElements(Interface interfaze) {
         Set<FullyQualifiedJavaType> importedTypes = new TreeSet<FullyQualifiedJavaType>();
         Method method = new Method();
+		context.getCommentGenerator().addGeneralMethodComment(method, introspectedTable,
+				"根据条件更新记录不包括TINYTEXT、TEXT、MEDIUMTEXT和LONGTEXT字段,空记录将会覆盖数据库中的记录");
         method.setVisibility(JavaVisibility.PUBLIC);
         method.setReturnType(FullyQualifiedJavaType.getIntInstance());
         method.setName(introspectedTable.getUpdateByExampleStatementId());
@@ -65,11 +67,9 @@ public class UpdateByExampleWithoutBLOBsMethodGenerator extends
         importedTypes.add(new FullyQualifiedJavaType(
                 "org.apache.ibatis.annotations.Param")); //$NON-NLS-1$
 
-        context.getCommentGenerator().addGeneralMethodComment(method,
-                introspectedTable);
 
         addMapperAnnotations(interfaze, method);
-        
+
         if (context.getPlugins()
                 .clientUpdateByExampleWithoutBLOBsMethodGenerated(method,
                         interfaze, introspectedTable)) {

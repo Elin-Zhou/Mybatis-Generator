@@ -27,15 +27,15 @@ import org.mybatis.generator.api.dom.java.Method;
 import org.mybatis.generator.api.dom.java.Parameter;
 
 /**
- * 
+ *
  * @author Jeff Butler
- * 
+ *
  */
 public class DeleteByPrimaryKeyMethodGenerator extends
         AbstractJavaMapperMethodGenerator {
 
     private boolean isSimple;
-    
+
     public DeleteByPrimaryKeyMethodGenerator(boolean isSimple) {
         super();
         this.isSimple = isSimple;
@@ -45,6 +45,7 @@ public class DeleteByPrimaryKeyMethodGenerator extends
     public void addInterfaceElements(Interface interfaze) {
         Set<FullyQualifiedJavaType> importedTypes = new TreeSet<FullyQualifiedJavaType>();
         Method method = new Method();
+		context.getCommentGenerator().addGeneralMethodComment(method, introspectedTable, "根据条件删除记录");
         method.setVisibility(JavaVisibility.PUBLIC);
         method.setReturnType(FullyQualifiedJavaType.getIntInstance());
         method.setName(introspectedTable.getDeleteByPrimaryKeyStatementId());
@@ -84,11 +85,9 @@ public class DeleteByPrimaryKeyMethodGenerator extends
             }
         }
 
-        context.getCommentGenerator().addGeneralMethodComment(method,
-                introspectedTable);
 
         addMapperAnnotations(interfaze, method);
-        
+
         if (context.getPlugins().clientDeleteByPrimaryKeyMethodGenerated(
                 method, interfaze, introspectedTable)) {
             interfaze.addImportedTypes(importedTypes);

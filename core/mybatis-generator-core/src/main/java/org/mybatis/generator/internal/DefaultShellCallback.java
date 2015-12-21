@@ -29,7 +29,7 @@ import org.mybatis.generator.exception.ShellException;
  * @author Jeff Butler
  */
 public class DefaultShellCallback implements ShellCallback {
-    
+
     /** The overwrite. */
     private boolean overwrite;
 
@@ -58,8 +58,9 @@ public class DefaultShellCallback implements ShellCallback {
 
         File project = new File(targetProject);
         if (!project.isDirectory()) {
-            throw new ShellException(getString("Warning.9", //$NON-NLS-1$
-                    targetProject));
+			// throw new ShellException(getString("Warning.9", //$NON-NLS-1$
+			// targetProject));
+			project.mkdir();
         }
 
         StringBuilder sb = new StringBuilder();

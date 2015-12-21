@@ -25,9 +25,9 @@ import org.mybatis.generator.api.dom.java.Method;
 import org.mybatis.generator.api.dom.java.Parameter;
 
 /**
- * 
+ *
  * @author Jeff Butler
- * 
+ *
  */
 public class SelectByExampleWithBLOBsMethodGenerator extends
         AbstractJavaMapperMethodGenerator {
@@ -46,7 +46,8 @@ public class SelectByExampleWithBLOBsMethodGenerator extends
 
         Method method = new Method();
         method.setVisibility(JavaVisibility.PUBLIC);
-
+		context.getCommentGenerator().addGeneralMethodComment(method, introspectedTable,
+				"根据条件查询记录集,包含TINYTEXT、TEXT、MEDIUMTEXT和LONGTEXT字段");
         FullyQualifiedJavaType returnType = FullyQualifiedJavaType
                 .getNewListInstance();
         FullyQualifiedJavaType listType;
@@ -66,11 +67,8 @@ public class SelectByExampleWithBLOBsMethodGenerator extends
                 .getSelectByExampleWithBLOBsStatementId());
         method.addParameter(new Parameter(type, "example")); //$NON-NLS-1$
 
-        context.getCommentGenerator().addGeneralMethodComment(method,
-                introspectedTable);
-
         addMapperAnnotations(interfaze, method);
-        
+
         if (context.getPlugins()
                 .clientSelectByExampleWithBLOBsMethodGenerated(method, interfaze,
                         introspectedTable)) {

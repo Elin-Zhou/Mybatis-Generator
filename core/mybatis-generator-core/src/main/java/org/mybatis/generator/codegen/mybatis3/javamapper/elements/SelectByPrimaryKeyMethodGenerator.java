@@ -27,15 +27,15 @@ import org.mybatis.generator.api.dom.java.Method;
 import org.mybatis.generator.api.dom.java.Parameter;
 
 /**
- * 
+ *
  * @author Jeff Butler
- * 
+ *
  */
 public class SelectByPrimaryKeyMethodGenerator extends
         AbstractJavaMapperMethodGenerator {
 
     private boolean isSimple;
-    
+
     public SelectByPrimaryKeyMethodGenerator(boolean isSimple) {
         super();
         this.isSimple = isSimple;
@@ -46,7 +46,7 @@ public class SelectByPrimaryKeyMethodGenerator extends
         Set<FullyQualifiedJavaType> importedTypes = new TreeSet<FullyQualifiedJavaType>();
         Method method = new Method();
         method.setVisibility(JavaVisibility.PUBLIC);
-
+		context.getCommentGenerator().addGeneralMethodComment(method, introspectedTable, "根据主键查询记录");
         FullyQualifiedJavaType returnType = introspectedTable.getRules()
                 .calculateAllFieldsClass();
         method.setReturnType(returnType);
@@ -88,11 +88,9 @@ public class SelectByPrimaryKeyMethodGenerator extends
                 method.addParameter(parameter);
             }
         }
-        
+
         addMapperAnnotations(interfaze, method);
 
-        context.getCommentGenerator().addGeneralMethodComment(method,
-                introspectedTable);
 
         if (context.getPlugins().clientSelectByPrimaryKeyMethodGenerated(
                 method, interfaze, introspectedTable)) {

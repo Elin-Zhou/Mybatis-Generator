@@ -51,7 +51,7 @@ public class FullyQualifiedTable {
 
     /** The domain object name. */
     private String domainObjectName;
-    
+
     /** The domain object sub package. */
     private String domainObjectSubPackage;
 
@@ -66,6 +66,8 @@ public class FullyQualifiedTable {
 
     /** The ending delimiter. */
     private String endingDelimiter;
+
+	private String remarks;
 
     /**
      * This object is used to hold information related to the table itself, not the columns in the table.
@@ -119,7 +121,7 @@ public class FullyQualifiedTable {
         this.runtimeCatalog = runtimeCatalog;
         this.runtimeSchema = runtimeSchema;
         this.runtimeTableName = runtimeTableName;
-        
+
         if (stringHasValue(domainObjectName)) {
             int index = domainObjectName.lastIndexOf('.');
             if (index == -1) {
@@ -231,11 +233,11 @@ public class FullyQualifiedTable {
     }
 
     /**
-     * This method returns a string that is the fully qualified table name, with
-     * underscores as the separator.
-     * 
-     * @return the namespace
-     */
+	 * This method returns a string that is the fully qualified table name, with
+	 * underscores as the separator.
+	 *
+	 * @return the namespace
+	 */
     public String getIbatis2SqlMapNamespace() {
         String localCatalog = stringHasValue(runtimeCatalog) ? runtimeCatalog
                 : introspectedCatalog;
@@ -347,7 +349,7 @@ public class FullyQualifiedTable {
                 sb.append(introspectedSchema.toLowerCase());
             }
         }
-        
+
         if (stringHasValue(domainObjectSubPackage)) {
             sb.append('.');
             sb.append(domainObjectSubPackage);
@@ -357,12 +359,20 @@ public class FullyQualifiedTable {
         return sb.toString();
     }
 
-    /**
-     * Adds the delimiters.
-     *
-     * @param sb
-     *            the sb
-     */
+	public String getRemarks() {
+		return remarks;
+	}
+
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
+
+	/**
+	 * Adds the delimiters.
+	 *
+	 * @param sb
+	 *            the sb
+	 */
     private void addDelimiters(StringBuilder sb) {
         if (stringHasValue(beginningDelimiter)) {
             sb.insert(0, beginningDelimiter);
