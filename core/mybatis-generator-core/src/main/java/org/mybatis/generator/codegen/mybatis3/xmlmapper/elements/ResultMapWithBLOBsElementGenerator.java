@@ -36,6 +36,7 @@ public class ResultMapWithBLOBsElementGenerator extends
 
     @Override
     public void addElements(XmlElement parentElement) {
+
         XmlElement answer = new XmlElement("resultMap"); //$NON-NLS-1$
 
         answer.addAttribute(new Attribute("id", //$NON-NLS-1$
@@ -59,7 +60,6 @@ public class ResultMapWithBLOBsElementGenerator extends
         }
 
         context.getCommentGenerator().addComment(answer);
-
         if (introspectedTable.isConstructorBased()) {
             addResultMapConstructorElements(answer);
         } else {
@@ -69,6 +69,10 @@ public class ResultMapWithBLOBsElementGenerator extends
         if (context.getPlugins()
                 .sqlMapResultMapWithBLOBsElementGenerated(answer,
                         introspectedTable)) {
+			// 开启二级缓存
+			XmlElement cache = new XmlElement("cache");
+			parentElement.addElement(cache);
+			// 添加resultmap
             parentElement.addElement(answer);
         }
     }
