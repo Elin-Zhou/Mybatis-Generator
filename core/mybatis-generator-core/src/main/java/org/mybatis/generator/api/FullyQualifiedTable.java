@@ -355,7 +355,6 @@ public class FullyQualifiedTable {
             sb.append(domainObjectSubPackage);
         }
 
-        // TODO - strip characters that are not valid in package names
         return sb.toString();
     }
 

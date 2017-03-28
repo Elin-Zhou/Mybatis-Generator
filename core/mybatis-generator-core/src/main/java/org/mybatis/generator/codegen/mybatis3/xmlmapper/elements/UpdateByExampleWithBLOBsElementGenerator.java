@@ -65,7 +65,7 @@ public class UpdateByExampleWithBLOBsElementGenerator extends
                     .getAliasedEscapedColumnName(introspectedColumn));
             sb.append(" = "); //$NON-NLS-1$
             sb.append(MyBatis3FormattingUtilities.getParameterClause(
-                    introspectedColumn, "record.")); //$NON-NLS-1$
+                    introspectedColumn, "record.",false)); //$NON-NLS-1$
 
             if (iter.hasNext()) {
                 sb.append(',');

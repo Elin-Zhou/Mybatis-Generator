@@ -26,7 +26,7 @@ import org.mybatis.generator.api.IntrospectedColumn;
  * @author Jeff Butler
  */
 public class MyBatis3FormattingUtilities {
-    
+
     /**
      * Utility class - no instances.
      */
@@ -37,30 +37,31 @@ public class MyBatis3FormattingUtilities {
     /**
      * Gets the parameter clause.
      *
-     * @param introspectedColumn
-     *            the introspected column
+     * @param introspectedColumn the introspected column
      * @return the parameter clause
      */
-    public static String getParameterClause(
-            IntrospectedColumn introspectedColumn) {
-        return getParameterClause(introspectedColumn, null);
+    public static String getParameterClause(IntrospectedColumn introspectedColumn) {
+        return getParameterClause(introspectedColumn, null, false);
     }
 
     /**
-     * Gets the parameter clause.
-     *
+     * 当筛选条件为主键时特殊处理
+     * 
      * @param introspectedColumn
-     *            the introspected column
-     * @param prefix
-     *            the prefix
-     * @return the parameter clause
      */
-    public static String getParameterClause(
-            IntrospectedColumn introspectedColumn, String prefix) {
+    public static String getParameterClauseWherePK(IntrospectedColumn introspectedColumn) {
+        return getParameterClause(introspectedColumn, null, true);
+    }
+
+    public static String getParameterClause(IntrospectedColumn introspectedColumn, String prefix, boolean isPk) {
         StringBuilder sb = new StringBuilder();
 
         sb.append("#{"); //$NON-NLS-1$
-        sb.append(introspectedColumn.getJavaProperty(prefix));
+        if (isPk) {
+            sb.append("pk");
+        } else {
+            sb.append(introspectedColumn.getJavaProperty(prefix));
+        }
         sb.append(",jdbcType="); //$NON-NLS-1$
         sb.append(introspectedColumn.getJdbcTypeName());
 
@@ -75,28 +76,24 @@ public class MyBatis3FormattingUtilities {
     }
 
     /**
-     * The phrase to use in a select list. If there is a table alias, the value will be
-     * "alias.columnName as alias_columnName"
+     * The phrase to use in a select list. If there is a table alias, the value will be "alias.columnName as
+     * alias_columnName"
      *
-     * @param introspectedColumn
-     *            the introspected column
+     * @param introspectedColumn the introspected column
      * @return the proper phrase
      */
-    public static String getSelectListPhrase(
-            IntrospectedColumn introspectedColumn) {
+    public static String getSelectListPhrase(IntrospectedColumn introspectedColumn) {
         if (stringHasValue(introspectedColumn.getTableAlias())) {
             StringBuilder sb = new StringBuilder();
 
             sb.append(getAliasedEscapedColumnName(introspectedColumn));
             sb.append(" as "); //$NON-NLS-1$
             if (introspectedColumn.isColumnNameDelimited()) {
-                sb.append(introspectedColumn.getContext()
-                        .getBeginningDelimiter());
+                sb.append(introspectedColumn.getContext().getBeginningDelimiter());
             }
             sb.append(introspectedColumn.getTableAlias());
             sb.append('_');
-            sb.append(escapeStringForMyBatis3(introspectedColumn
-                    .getActualColumnName()));
+            sb.append(escapeStringForMyBatis3(introspectedColumn.getActualColumnName()));
             if (introspectedColumn.isColumnNameDelimited()) {
                 sb.append(introspectedColumn.getContext().getEndingDelimiter());
             }
@@ -109,19 +106,15 @@ public class MyBatis3FormattingUtilities {
     /**
      * Gets the escaped column name.
      *
-     * @param introspectedColumn
-     *            the introspected column
+     * @param introspectedColumn the introspected column
      * @return the escaped column name
      */
-    public static String getEscapedColumnName(
-            IntrospectedColumn introspectedColumn) {
+    public static String getEscapedColumnName(IntrospectedColumn introspectedColumn) {
         StringBuilder sb = new StringBuilder();
-        sb.append(escapeStringForMyBatis3(introspectedColumn
-                .getActualColumnName()));
+        sb.append(escapeStringForMyBatis3(introspectedColumn.getActualColumnName()));
 
         if (introspectedColumn.isColumnNameDelimited()) {
-            sb.insert(0, introspectedColumn.getContext()
-                    .getBeginningDelimiter());
+            sb.insert(0, introspectedColumn.getContext().getBeginningDelimiter());
             sb.append(introspectedColumn.getContext().getEndingDelimiter());
         }
 
@@ -131,12 +124,10 @@ public class MyBatis3FormattingUtilities {
     /**
      * Calculates the string to use in select phrases in SqlMaps.
      *
-     * @param introspectedColumn
-     *            the introspected column
+     * @param introspectedColumn the introspected column
      * @return the aliased escaped column name
      */
-    public static String getAliasedEscapedColumnName(
-            IntrospectedColumn introspectedColumn) {
+    public static String getAliasedEscapedColumnName(IntrospectedColumn introspectedColumn) {
         if (stringHasValue(introspectedColumn.getTableAlias())) {
             StringBuilder sb = new StringBuilder();
 
@@ -152,17 +143,13 @@ public class MyBatis3FormattingUtilities {
     /**
      * The aliased column name for a select statement generated by the example clauses. This is not appropriate for
      * selects in SqlMaps because the column is not escaped for MyBatis. If there is a table alias, the value will be
-     * alias.columnName.
-     * 
-     * This method is used in the Example classes and the returned value will be in a Java string. So we need to escape
-     * double quotes if they are the delimiters.
+     * alias.columnName. This method is used in the Example classes and the returned value will be in a Java string. So
+     * we need to escape double quotes if they are the delimiters.
      *
-     * @param introspectedColumn
-     *            the introspected column
+     * @param introspectedColumn the introspected column
      * @return the aliased column name
      */
-    public static String getAliasedActualColumnName(
-            IntrospectedColumn introspectedColumn) {
+    public static String getAliasedActualColumnName(IntrospectedColumn introspectedColumn) {
         StringBuilder sb = new StringBuilder();
         if (stringHasValue(introspectedColumn.getTableAlias())) {
             sb.append(introspectedColumn.getTableAlias());
@@ -170,15 +157,13 @@ public class MyBatis3FormattingUtilities {
         }
 
         if (introspectedColumn.isColumnNameDelimited()) {
-            sb.append(escapeStringForJava(introspectedColumn
-                    .getContext().getBeginningDelimiter()));
+            sb.append(escapeStringForJava(introspectedColumn.getContext().getBeginningDelimiter()));
         }
 
         sb.append(introspectedColumn.getActualColumnName());
 
         if (introspectedColumn.isColumnNameDelimited()) {
-            sb.append(escapeStringForJava(introspectedColumn
-                    .getContext().getEndingDelimiter()));
+            sb.append(escapeStringForJava(introspectedColumn.getContext().getEndingDelimiter()));
         }
 
         return sb.toString();
@@ -188,12 +173,10 @@ public class MyBatis3FormattingUtilities {
      * The renamed column name for a select statement. If there is a table alias, the value will be alias_columnName.
      * This is appropriate for use in a result map.
      *
-     * @param introspectedColumn
-     *            the introspected column
+     * @param introspectedColumn the introspected column
      * @return the renamed column name
      */
-    public static String getRenamedColumnNameForResultMap(
-            IntrospectedColumn introspectedColumn) {
+    public static String getRenamedColumnNameForResultMap(IntrospectedColumn introspectedColumn) {
         if (stringHasValue(introspectedColumn.getTableAlias())) {
             StringBuilder sb = new StringBuilder();
 
@@ -209,8 +192,7 @@ public class MyBatis3FormattingUtilities {
     /**
      * Escape string for my batis3.
      *
-     * @param s
-     *            the s
+     * @param s the s
      * @return the string
      */
     public static String escapeStringForMyBatis3(String s) {

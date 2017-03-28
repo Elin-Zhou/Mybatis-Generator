@@ -8,7 +8,7 @@
 	<properties resource="generator-jdbc.properties" />
 	<!-- 指定jdbc驱动 -->
 	<classPathEntry
-		location="F:/jar/mysql/mysql-connector-java-5.1.7-bin.jar" />
+		location="/home/yumei/mysql-connector-java-5.1.18.jar" />
 
 	<context id="testTables" targetRuntime="MyBatis3">
 		<commentGenerator>
@@ -24,7 +24,7 @@
 		</javaTypeResolver>
 
 		<!-- targetProject:生成PO类的位置 -->
-		<javaModelGenerator targetPackage="com.yumei.weixingw.common.dal.dataobject" targetProject="src/main/java">
+		<javaModelGenerator targetPackage="com.elin4it.domain" targetProject="src/main/java">
 			<!-- enableSubPackages:是否让schema作为包的后缀 -->
 			<property name="enableSubPackages" value="false" />
 			<!-- 从数据库返回的值被清理前后的空格 -->
@@ -38,12 +38,12 @@
 		</sqlMapGenerator>
 		<!-- targetPackage：mapper接口生成的位置 -->
 		<javaClientGenerator type="XMLMAPPER"
-			targetPackage="com.yumei.weixingw.common.dal.daointerface" targetProject="src/main/java">
+			targetPackage="com.elin4it.dal" targetProject="src/main/java">
 			<!-- enableSubPackages:是否让schema作为包的后缀 -->
 			<property name="enableSubPackages" value="false" />
 		</javaClientGenerator>
 		<!-- 指定数据库表 -->
-		<table tableName="gw_file_order"></table>
+		<table tableName="account"></table>
 
 
 

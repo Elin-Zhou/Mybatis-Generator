@@ -80,7 +80,7 @@ public class DeleteByPrimaryKeyElementGenerator extends
                     .getEscapedColumnName(introspectedColumn));
             sb.append(" = "); //$NON-NLS-1$
             sb.append(MyBatis3FormattingUtilities
-                    .getParameterClause(introspectedColumn));
+                    .getParameterClauseWherePK(introspectedColumn));
             answer.addElement(new TextElement(sb.toString()));
         }
 

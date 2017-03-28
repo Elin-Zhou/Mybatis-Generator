@@ -70,8 +70,8 @@ public class ResultMapWithoutBLOBsElementGenerator extends
         if (context.getPlugins().sqlMapResultMapWithoutBLOBsElementGenerated(
                 answer, introspectedTable)) {
 			// 开启二级缓存
-			XmlElement cache = new XmlElement("cache");
-			parentElement.addElement(cache);
+            // XmlElement cache = new XmlElement("cache");
+            // parentElement.addElement(cache);
 			// 添加resultmap
             parentElement.addElement(answer);
 

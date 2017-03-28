@@ -20,7 +20,13 @@
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <parent>
+    <dependencies>
+        <dependency>
+            <groupId>com.elin4it</groupId>
+            <artifactId>mybatis-queryhelper</artifactId>
+        </dependency>
+    </dependencies>
+    <parent>
     <groupId>org.mybatis</groupId>
     <artifactId>mybatis-parent</artifactId>
     <version>26</version>
@@ -215,6 +221,11 @@
         <groupId>org.mybatis</groupId>
         <artifactId>mybatis</artifactId>
         <version>3.3.0</version>
+      </dependency>
+      <dependency>
+        <groupId>com.elin4it</groupId>
+        <artifactId>mybatis-queryhelper</artifactId>
+        <version>1.0-SNAPSHOT</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

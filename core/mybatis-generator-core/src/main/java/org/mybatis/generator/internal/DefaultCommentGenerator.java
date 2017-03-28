@@ -71,7 +71,7 @@ public class DefaultCommentGenerator implements CommentGenerator {
 	 */
     public void addJavaFileComment(CompilationUnit compilationUnit) {
         compilationUnit.addFileCommentLine("/**");
-        compilationUnit.addFileCommentLine(" * Yumeitech.com.cn Inc.");
+        compilationUnit.addFileCommentLine(" * Duiba.com.cn Inc.");
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy");
 		compilationUnit.addFileCommentLine(
 				" * Copyright (c) 2012-" + simpleDateFormat.format(new Date()) + " All Rights Reserved.");
@@ -80,9 +80,6 @@ public class DefaultCommentGenerator implements CommentGenerator {
     }
 
     public void addComment(XmlElement xmlElement) {
-		if (suppressAllComments) {
-			return;
-		}
 	}
 
     /* (non-Javadoc)
@@ -151,9 +148,6 @@ public class DefaultCommentGenerator implements CommentGenerator {
 	 */
     public void addClassComment(InnerClass innerClass,
             IntrospectedTable introspectedTable) {
-		if (suppressAllComments) {
-			return;
-		}
 		SimpleDateFormat formate = new SimpleDateFormat("yyyy-MM-dd");
 		innerClass.addJavaDocLine("/**");
 		innerClass.addJavaDocLine(" * " + introspectedTable.getFullyQualifiedTable().getRemarks());
@@ -169,7 +163,7 @@ public class DefaultCommentGenerator implements CommentGenerator {
     @Override
     public void addModelClassComment(TopLevelClass topLevelClass,
             IntrospectedTable introspectedTable) {
-        if (suppressAllComments  || !addRemarkComments) {
+        if (!addRemarkComments) {
             return;
         }
     }
@@ -179,9 +173,6 @@ public class DefaultCommentGenerator implements CommentGenerator {
      */
     public void addEnumComment(InnerEnum innerEnum,
             IntrospectedTable introspectedTable) {
-        if (suppressAllComments) {
-            return;
-        }
     }
 
 	/**
@@ -190,9 +181,6 @@ public class DefaultCommentGenerator implements CommentGenerator {
     public void addFieldComment(Field field,
             IntrospectedTable introspectedTable,
             IntrospectedColumn introspectedColumn) {
-		if (suppressAllComments) {
-			return;
-		}
 		if (introspectedColumn.getRemarks() != null && !"".equals(introspectedColumn.getRemarks())) {
 			field.addJavaDocLine("/**");
 			field.addJavaDocLine(" * " + introspectedColumn.getRemarks());
@@ -204,9 +192,6 @@ public class DefaultCommentGenerator implements CommentGenerator {
      * @see org.mybatis.generator.api.CommentGenerator#addFieldComment(org.mybatis.generator.api.dom.java.Field, org.mybatis.generator.api.IntrospectedTable)
      */
     public void addFieldComment(Field field, IntrospectedTable introspectedTable) {
-        if (suppressAllComments) {
-            return;
-        }
     }
 
     /* (non-Javadoc)
@@ -214,9 +199,6 @@ public class DefaultCommentGenerator implements CommentGenerator {
      */
     public void addGeneralMethodComment(Method method,
             IntrospectedTable introspectedTable) {
-        if (suppressAllComments) {
-            return;
-        }
     }
 
 	/**
@@ -225,9 +207,6 @@ public class DefaultCommentGenerator implements CommentGenerator {
     public void addGetterComment(Method method,
             IntrospectedTable introspectedTable,
             IntrospectedColumn introspectedColumn) {
-		if (suppressAllComments) {
-			return;
-		}
 		method.addJavaDocLine("/**");
 		method.addJavaDocLine(" * 获得" + introspectedColumn.getRemarks());
 		method.addJavaDocLine(" */");
@@ -239,9 +218,6 @@ public class DefaultCommentGenerator implements CommentGenerator {
     public void addSetterComment(Method method,
             IntrospectedTable introspectedTable,
             IntrospectedColumn introspectedColumn) {
-		if (suppressAllComments) {
-			return;
-		}
 		method.addJavaDocLine("/**");
 		method.addJavaDocLine(" * 设置" + introspectedColumn.getRemarks());
 		method.addJavaDocLine(" */");
@@ -259,9 +235,6 @@ public class DefaultCommentGenerator implements CommentGenerator {
 	 */
 	@Override
 	public void addGeneralMethodComment(Method method, IntrospectedTable introspectedTable, String comments) {
-		if (suppressAllComments) {
-			return;
-		}
 
 		StringBuilder sb = new StringBuilder();
 		String remark = comments;

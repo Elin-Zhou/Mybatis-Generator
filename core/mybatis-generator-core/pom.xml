@@ -206,6 +206,10 @@
       <artifactId>hsqldb</artifactId>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>com.elin4it</groupId>
+      <artifactId>mybatis-queryhelper</artifactId>
+    </dependency>
   </dependencies>
 
   <scm>
