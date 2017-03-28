@@ -110,6 +110,8 @@ public class TableConfiguration extends PropertyHolder {
     /** The is all column delimiting enabled. */
     private boolean isAllColumnDelimitingEnabled;
 
+    private boolean isEnableQueryHelper;
+
     /**
      * Instantiates a new table configuration.
      *
@@ -864,5 +866,14 @@ public class TableConfiguration extends PropertyHolder {
     public void setAllColumnDelimitingEnabled(
             boolean isAllColumnDelimitingEnabled) {
         this.isAllColumnDelimitingEnabled = isAllColumnDelimitingEnabled;
+    }
+
+
+    public boolean isEnableQueryHelper() {
+        return isEnableQueryHelper;
+    }
+
+    public void setEnableQueryHelper(boolean enableQueryHelper) {
+        isEnableQueryHelper = enableQueryHelper;
     }
 }

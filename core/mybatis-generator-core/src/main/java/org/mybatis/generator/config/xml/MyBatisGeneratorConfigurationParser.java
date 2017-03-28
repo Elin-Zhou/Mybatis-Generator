@@ -37,6 +37,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.Properties;
 
+import org.apache.tools.ant.taskdefs.condition.IsFalse;
 import org.mybatis.generator.config.ColumnOverride;
 import org.mybatis.generator.config.ColumnRenamingRule;
 import org.mybatis.generator.config.CommentGeneratorConfiguration;
@@ -260,6 +261,7 @@ public class MyBatisGeneratorConfigurationParser {
         String delimitIdentifiers = attributes
                 .getProperty("delimitIdentifiers"); //$NON-NLS-1$
         String delimitAllColumns = attributes.getProperty("delimitAllColumns"); //$NON-NLS-1$
+        String enableQueryHelper = attributes.getProperty("enableQueryHelper");
 
         if (stringHasValue(catalog)) {
             tc.setCatalog(catalog);
@@ -342,6 +344,10 @@ public class MyBatisGeneratorConfigurationParser {
 
         if (stringHasValue(delimitAllColumns)) {
             tc.setAllColumnDelimitingEnabled(isTrue(delimitAllColumns));
+        }
+
+        if (stringHasValue(enableQueryHelper)){
+            tc.setEnableQueryHelper(isTrue(enableQueryHelper));
         }
 
         NodeList nodeList = node.getChildNodes();

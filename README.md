@@ -7,4 +7,4 @@
 2. 添加Mapper方法的注释
 3. 增加类注释
 4. 增加文件注释
-5. 查询内容可选（可定制查询出哪些字段）
+5. 查询内容可选（可定制查询出哪些字段），需配合插件使用：[mybatis-generator-query-helper](https://github.com/Elin-Zhou/mybatis-generator-query-helper)

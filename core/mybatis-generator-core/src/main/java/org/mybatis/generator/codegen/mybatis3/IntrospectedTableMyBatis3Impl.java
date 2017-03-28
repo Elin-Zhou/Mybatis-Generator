@@ -250,15 +250,17 @@ public class IntrospectedTableMyBatis3Impl extends IntrospectedTable {
             }
         }
 
-        // 遍历需要生成的queryhelper
-        for (AbstractJavaGenerator javaGenerator : queryHelperGenerators) {
-            List<CompilationUnit> compilationUnits = javaGenerator.getCompilationUnits();
-            for (CompilationUnit compilationUnit : compilationUnits) {
-                GeneratedJavaFile gjf = new GeneratedJavaFile(compilationUnit,
-                                                              context.getJavaClientGeneratorConfiguration().getTargetProject(),
-                                                              context.getProperty(PropertyRegistry.CONTEXT_JAVA_FILE_ENCODING),
-                                                              context.getJavaFormatter());
-                answer.add(gjf);
+        if (tableConfiguration.isEnableQueryHelper()) {
+            // 遍历需要生成的queryhelper
+            for (AbstractJavaGenerator javaGenerator : queryHelperGenerators) {
+                List<CompilationUnit> compilationUnits = javaGenerator.getCompilationUnits();
+                for (CompilationUnit compilationUnit : compilationUnits) {
+                    GeneratedJavaFile gjf = new GeneratedJavaFile(compilationUnit,
+                                                                  context.getJavaClientGeneratorConfiguration().getTargetProject(),
+                                                                  context.getProperty(PropertyRegistry.CONTEXT_JAVA_FILE_ENCODING),
+                                                                  context.getJavaFormatter());
+                    answer.add(gjf);
+                }
             }
         }
 

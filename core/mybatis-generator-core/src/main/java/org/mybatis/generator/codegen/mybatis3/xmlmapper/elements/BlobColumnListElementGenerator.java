@@ -24,9 +24,7 @@ import org.mybatis.generator.api.dom.xml.XmlElement;
 import org.mybatis.generator.codegen.mybatis3.MyBatis3FormattingUtilities;
 
 /**
- * 
  * @author Jeff Butler
- * 
  */
 public class BlobColumnListElementGenerator extends AbstractXmlElementGenerator {
 
@@ -39,34 +37,51 @@ public class BlobColumnListElementGenerator extends AbstractXmlElementGenerator 
         XmlElement answer = new XmlElement("sql"); //$NON-NLS-1$
 
         answer.addAttribute(new Attribute("id", //$NON-NLS-1$
-                introspectedTable.getBlobColumnListId()));
+                                          introspectedTable.getBlobColumnListId()));
 
         context.getCommentGenerator().addComment(answer);
 
-        StringBuilder sb = new StringBuilder();
+        Iterator<IntrospectedColumn> iter = introspectedTable.getBLOBColumns().iterator();
+        if (introspectedTable.getTableConfiguration().isEnableQueryHelper()) {
 
-        Iterator<IntrospectedColumn> iter = introspectedTable.getBLOBColumns()
-                .iterator();
-        while (iter.hasNext()) {
-            sb.append(MyBatis3FormattingUtilities.getSelectListPhrase(iter
-                    .next()));
+            XmlElement query = new XmlElement("if");
+            query.addAttribute(new Attribute("test", "querySet != null"));
+            XmlElement trim = new XmlElement("trim");
+            trim.addAttribute(new Attribute("suffixOverrides", ","));
 
-            if (iter.hasNext()) {
-                sb.append(", "); //$NON-NLS-1$
+            StringBuilder sb;
+            XmlElement node;
+            while (iter.hasNext()) {
+                String columnName = MyBatis3FormattingUtilities.getSelectListPhrase(iter.next());
+                node = new XmlElement("if");
+                node.addAttribute(new Attribute("test", "querySet." + columnName + " != null"));
+                sb = new StringBuilder();
+                node.addElement(new TextElement(sb.append(columnName).append(",").toString()));
+                trim.addElement(node);
+            }
+            query.addElement(trim);
+            answer.addElement(query);
+        } else {
+            StringBuilder sb = new StringBuilder();
+            while (iter.hasNext()) {
+                sb.append(MyBatis3FormattingUtilities.getSelectListPhrase(iter.next()));
+
+                if (iter.hasNext()) {
+                    sb.append(", "); //$NON-NLS-1$
+                }
+
+                if (sb.length() > 80) {
+                    answer.addElement(new TextElement(sb.toString()));
+                    sb.setLength(0);
+                }
             }
 
-            if (sb.length() > 80) {
-                answer.addElement(new TextElement(sb.toString()));
-                sb.setLength(0);
+            if (sb.length() > 0) {
+                answer.addElement((new TextElement(sb.toString())));
             }
         }
 
-        if (sb.length() > 0) {
-            answer.addElement((new TextElement(sb.toString())));
-        }
-
-        if (context.getPlugins().sqlMapBlobColumnListElementGenerated(
-                answer, introspectedTable)) {
+        if (context.getPlugins().sqlMapBlobColumnListElementGenerated(answer, introspectedTable)) {
             parentElement.addElement(answer);
         }
     }
